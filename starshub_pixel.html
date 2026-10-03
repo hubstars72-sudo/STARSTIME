@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StarsHub — Ta prochaine lecture t'attend</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Space+Grotesk:wght@500;600;700&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F0D26;
+    --surface:#1A1740;
+    --surface-2:#231F52;
+    --violet:#8B6BFF;
+    --pink:#FF5FA8;
+    --amber:#FFB238;
+    --teal:#2FE0C4;
+    --paper:#F7F5FF;
+    --paper-dim:#B9B4E0;
+    --line:rgba(247,245,255,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .serif{font-family:'Fraunces', serif;}
+  .mono{font-family:'Space Mono', monospace;}
+  .display{font-family:'Space Grotesk', sans-serif;}
+  a{color:inherit; text-decoration:none;}
+  img,svg{max-width:100%; display:block;}
+  .wrap{max-width:1200px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Starfield background ---------- */
+  .starfield{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(1px 1px at 8% 15%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 22% 68%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 38% 28%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(1px 1px at 52% 82%, rgba(255,255,255,0.6), transparent),
+      radial-gradient(1.5px 1.5px at 68% 12%, rgba(255,255,255,0.9), transparent),
+      radial-gradient(1px 1px at 78% 55%, rgba(255,255,255,0.65), transparent),
+      radial-gradient(1.5px 1.5px at 91% 35%, rgba(255,255,255,0.85), transparent),
+      radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.55), transparent),
+      radial-gradient(1px 1px at 85% 78%, rgba(255,255,255,0.7), transparent),
+      radial-gradient(1.5px 1.5px at 45% 50%, rgba(255,255,255,0.5), transparent);
+    background-size:100% 100%;
+    animation:twinkle 5s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{0%{opacity:0.6;} 100%{opacity:1;}}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:sticky; top:0; z-index:100;
+    background:rgba(15,13,38,0.75);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line);
+  }
+  nav{display:flex; align-items:center; justify-content:space-between; padding:18px 24px; max-width:1200px; margin:0 auto;}
+  .logo{display:flex; align-items:center; gap:10px; font-family:'Space Grotesk'; font-weight:700; font-size:20px; letter-spacing:-0.01em;}
+  .logo .star{color:var(--amber); font-size:18px;}
+  .nav-links{display:flex; gap:30px; font-size:14px; font-weight:500; color:var(--paper-dim);}
+  .nav-links a:hover{color:var(--paper);}
+  .nav-cta{
+    background:linear-gradient(100deg, var(--violet), var(--pink));
+    color:#fff; padding:10px 20px; border-radius:10px; font-size:13.5px; font-weight:600;
+    display:flex; align-items:center; gap:8px; transition:transform .2s, box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px); box-shadow:0 10px 26px -10px rgba(139,107,255,0.6);}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative; z-index:1; padding:110px 24px 80px; text-align:center;}
+  .hero-inner{max-width:820px; margin:0 auto;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono'; font-size:12px;
+    color:var(--teal); background:rgba(47,224,196,0.08); border:1px solid rgba(47,224,196,0.25);
+    padding:7px 14px; border-radius:100px; margin-bottom:28px; letter-spacing:0.03em;
+  }
+  .hero h1{
+    font-family:'Fraunces'; font-weight:600; font-style:italic;
+    font-size:clamp(42px, 7vw, 76px); line-height:1.05; letter-spacing:-0.01em;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(100deg, var(--violet), var(--pink) 60%, var(--amber));
+    -webkit-background-clip:text; background-clip:text; color:transparent; font-style:normal; font-weight:700;
+  }
+  .hero p{margin-top:26px; font-size:17px; color:var(--paper-dim); max-width:520px; margin-left:auto; margin-right:auto; line-height:1.65;}
+  .hero-actions{display:flex; gap:14px; justify-content:center; margin-top:38px; flex-wrap:wrap;}
+  .btn{padding:15px 28px; border-radius:12px; font-weight:600; font-size:14.5px; display:inline-flex; align-items:center; gap:9px; transition:transform .2s, box-shadow .2s;}
+  .btn-primary{background:linear-gradient(100deg, var(--violet), var(--pink)); color:#fff; box-shadow:0 14px 34px -12px rgba(139,107,255,0.55);}
+  .btn-primary:hover{transform:translateY(-3px);}
+  .btn-ghost{border:1.5px solid var(--line); color:var(--paper);}
+  .btn-ghost:hover{border-color:rgba(247,245,255,0.4);}
+
+  /* ---------- Genre nav dots ---------- */
+  .genre-orbit{display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-top:56px; position:relative; z-index:1;}
+  .genre-pill{
+    padding:9px 18px; border-radius:100px; font-size:13px; font-weight:600; cursor:pointer;
+    border:1.5px solid var(--line); background:var(--surface); transition:all .2s; color:var(--paper-dim);
+  }
+  .genre-pill:hover{border-color:rgba(247,245,255,0.3); color:var(--paper);}
+  .genre-pill.active{background:linear-gradient(100deg, var(--violet), var(--pink)); color:#fff; border-color:transparent;}
+
+  /* ---------- Shelf / grid ---------- */
+  .section{position:relative; z-index:1; padding:80px 0;}
+  .section-head{display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-bottom:44px;}
+  .section-head h2{font-family:'Fraunces'; font-weight:600; font-size:clamp(28px,4vw,42px);}
+  .section-head p{font-size:14px; color:var(--paper-dim); max-width:320px;}
+  .count-tag{font-family:'Space Mono'; font-size:12px; color:var(--paper-dim);}
+
+  .grid{display:grid; grid-template-columns:repeat(4, 1fr); gap:26px;}
+  .book-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:18px; overflow:hidden;
+    display:flex; flex-direction:column; transition:transform .25s, box-shadow .25s, border-color .25s;
+  }
+  .book-card:hover{transform:translateY(-6px); box-shadow:0 26px 50px -22px rgba(0,0,0,0.5); border-color:rgba(247,245,255,0.2);}
+  .cover{aspect-ratio:3/4; position:relative; overflow:hidden;}
+  .cover svg{width:100%; height:100%;}
+  .cover-badge{
+    position:absolute; top:10px; left:10px; font-family:'Space Mono'; font-size:10px;
+    background:rgba(15,13,38,0.55); backdrop-filter:blur(6px); color:#fff; padding:4px 9px; border-radius:100px;
+    border:1px solid rgba(255,255,255,0.15);
+  }
+  .book-body{padding:18px 18px 20px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .book-genre{font-family:'Space Mono'; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal);}
+  .book-title{font-family:'Fraunces'; font-weight:600; font-size:17px; line-height:1.25;}
+  .book-author{font-size:12.5px; color:var(--paper-dim);}
+  .book-bottom{display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:10px;}
+  .book-price{font-family:'Space Grotesk'; font-weight:700; font-size:16px;}
+  .book-order{
+    width:36px; height:36px; border-radius:10px; background:var(--surface-2); display:flex; align-items:center;
+    justify-content:center; font-size:14px; transition:background .2s, transform .2s; border:1px solid var(--line);
+  }
+  .book-order:hover{background:linear-gradient(100deg, var(--violet), var(--pink)); transform:scale(1.06); border-color:transparent;}
+
+  /* ---------- Band ---------- */
+  .band{position:relative; z-index:1; margin:20px 24px; padding:64px 40px; border-radius:28px; overflow:hidden;
+    background:linear-gradient(120deg, var(--surface-2), var(--surface)); border:1px solid var(--line);
+  }
+  .band-inner{max-width:1120px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:30px; flex-wrap:wrap;}
+  .band h3{font-family:'Fraunces'; font-weight:600; font-size:clamp(26px,3.6vw,38px); max-width:520px;}
+  .band p{color:var(--paper-dim); margin-top:10px; max-width:440px; font-size:14.5px;}
+
+  /* ---------- About ---------- */
+  .about{position:relative; z-index:1; padding:90px 0;}
+  .about-grid{display:grid; grid-template-columns:0.9fr 1.1fr; gap:60px; align-items:center;}
+  .about h2{font-family:'Fraunces'; font-weight:600; font-size:clamp(30px,4.6vw,46px); line-height:1.15;}
+  .about h2 em{font-style:italic; background:linear-gradient(100deg,var(--amber),var(--pink)); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .about p{color:var(--paper-dim); margin-top:20px; line-height:1.7; font-size:15px;}
+  .constellation-big{aspect-ratio:1; border-radius:24px; background:radial-gradient(circle at 30% 30%, rgba(139,107,255,0.25), transparent 60%), var(--surface); border:1px solid var(--line); display:flex; align-items:center; justify-content:center;}
+
+  /* ---------- Footer ---------- */
+  footer{position:relative; z-index:1; border-top:1px solid var(--line); padding:56px 0 28px;}
+  .footer-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px; padding-bottom:36px;}
+  .footer-cols{display:flex; gap:70px; flex-wrap:wrap;}
+  .footer-col h4{font-family:'Space Mono'; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--paper-dim); margin-bottom:14px;}
+  .footer-col a, .footer-col p{display:block; font-size:14px; margin-bottom:9px; color:var(--paper-dim);}
+  .footer-col a:hover{color:var(--paper);}
+  .foot-bottom{display:flex; justify-content:space-between; padding-top:22px; border-top:1px solid var(--line); font-size:12px; color:var(--paper-dim); flex-wrap:wrap; gap:10px;}
+
+  .wa-float{
+    position:fixed; bottom:26px; right:26px; z-index:200; width:58px; height:58px; border-radius:50%;
+    background:linear-gradient(135deg, var(--violet), var(--pink)); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 16px 36px -10px rgba(139,107,255,0.6); font-size:24px; color:#fff; animation:pulse 2.6s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);} 50%{transform:scale(1.07);}}
+
+  @media (max-width:980px){
+    .grid{grid-template-columns:repeat(2,1fr);}
+    .about-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .nav-links{display:none;}
+    .grid{grid-template-columns:repeat(2,1fr); gap:14px;}
+    .hero{padding:90px 20px 60px;}
+    .band{margin:14px; padding:44px 24px;}
+  }
+  :focus-visible{outline:2.5px solid var(--pink); outline-offset:3px;}
+  @media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
+</style>
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+
+    fbq('init', '3324693484396249');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=3324693484396249&ev=PageView&noscript=1" />
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
+</head>
+<body>
+<div class="starfield"></div>
+
+<header>
+  <nav>
+    <div class="logo"><span class="star">✦</span> StarsHub</div>
+    <div class="nav-links">
+      <a href="#bibliotheque">Bibliothèque</a>
+      <a href="#genres">Genres</a>
+      <a href="#apropos">À propos</a>
+    </div>
+    <a class="nav-cta" id="navCta" href="#" target="_blank" rel="noopener">💬 Commander</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">✦ Bibliothèque numérique — nouveaux titres chaque semaine</span>
+    <h1>Le savoir est<br>une <span class="grad">étoile</span></h1>
+    <p>Fiction, développement personnel, business, éducation — StarsHub rassemble des ebooks pour tous les esprits curieux. Choisissez, commandez, recevez.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" id="heroCta" href="#" target="_blank" rel="noopener">💬 Commander sur WhatsApp</a>
+      <a class="btn btn-ghost" href="#bibliotheque">Explorer la bibliothèque ↓</a>
+    </div>
+  </div>
+  <div class="genre-orbit" id="genreOrbit"></div>
+</section>
+
+<section class="section" id="bibliotheque">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <span class="count-tag" id="bookCount">— livres au catalogue</span>
+        <h2>La bibliothèque</h2>
+      </div>
+      <p>Chaque couverture est une constellation unique, générée pour ce titre — en attendant vos vraies jaquettes.</p>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="band-inner">
+    <div>
+      <h3>Une envie de lecture précise ?</h3>
+      <p>Dites-nous le genre, l'ambiance ou l'auteur que vous cherchez — on vous oriente directement vers le bon titre.</p>
+    </div>
+    <a class="btn btn-primary" id="bandCta" href="#" target="_blank" rel="noopener">💬 Écrire sur WhatsApp</a>
+  </div>
+</div>
+
+<section class="about" id="apropos">
+  <div class="wrap about-grid">
+    <div class="constellation-big" id="bigConstellation"></div>
+    <div>
+      <span class="eyebrow" style="color:var(--amber); border-color:rgba(255,178,56,0.25); background:rgba(255,178,56,0.08);">L'histoire</span>
+      <h2>Un hub, <em>mille univers.</em></h2>
+      <p>StarsHub est né d'une idée simple : rendre la lecture numérique accessible, sans détour. Romans qui transportent, guides qui transforment, savoirs qui outillent — chaque ebook est sélectionné pour mériter sa place dans votre bibliothèque.</p>
+      <p>Pas de boutique physique, pas de complications : un catalogue clair, une commande directe, une lecture qui commence le jour même.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="logo" style="margin-bottom:14px;"><span class="star">✦</span> StarsHub</div>
+        <p style="max-width:260px; font-size:13.5px;">Chaque livre est une étoile à découvrir. Ebooks pour tous les esprits curieux.</p>
+      </div>
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Bibliothèque</h4>
+          <a href="#bibliotheque">Tous les ebooks</a>
+          <a href="#genres">Genres</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a id="footWa" href="#" target="_blank" rel="noopener">WhatsApp</a>
+          <p id="footNumber">À définir</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 StarsHub. Tous droits réservés.</span>
+      <span>Bibliothèque numérique</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" id="floatWa" href="#" target="_blank" rel="noopener" aria-label="Commander sur WhatsApp">💬</a>
+
+<script>
+/* ============================================================
+   CONFIG — à personnaliser
+   ============================================================ */
+const WHATSAPP_NUMBER = "229XXXXXXXXX"; // ⚠️ remplacez par votre vrai numéro (indicatif sans le +, sans le 0 initial)
+const STORE_NAME = "StarsHub";
+
+/* ============================================================
+   GENRES
+   ============================================================ */
+const GENRES = {
+  fiction:   { label: "Fiction", color: "#8B6BFF" },
+  devperso:  { label: "Développement personnel", color: "#FFB238" },
+  business:  { label: "Business", color: "#2FE0C4" },
+  education: { label: "Éducation", color: "#FF5FA8" },
+  poesie:    { label: "Poésie", color: "#8B6BFF" },
+};
+
+/* ============================================================
+   EBOOKS — exemples à remplacer par vos vrais titres.
+   Ajoutez / modifiez les lignes ci-dessous : id, title, author,
+   genre (clé de GENRES), price. La couverture (constellation)
+   se génère automatiquement à partir du titre.
+   ============================================================ */
+const BOOKS = [
+  { id:1, title:"L'Écho des Sables", author:"Awa Bello", genre:"fiction", price:2500, badge:"Nouveau" },
+  { id:2, title:"Le Dernier Baobab", author:"Kwame Sori", genre:"fiction", price:2000 },
+  { id:3, title:"Discipline Quotidienne", author:"Fatou N'Diaye", genre:"devperso", price:3000, badge:"Populaire" },
+  { id:4, title:"Se Réinventer à 30 Ans", author:"Ibrahim Coulibaly", genre:"devperso", price:2800 },
+  { id:5, title:"Vendre sans Vendre", author:"Chidi Okafor", genre:"business", price:3500 },
+  { id:6, title:"Le Petit Guide de l'Entrepreneur", author:"Aïcha Traoré", genre:"business", price:3000, badge:"Populaire" },
+  { id:7, title:"Comprendre l'Économie Locale", author:"Moussa Diarra", genre:"education", price:2200 },
+  { id:8, title:"Apprendre à Apprendre", author:"Grace Mensah", genre:"education", price:2000 },
+  { id:9, title:"Murmures de la Lagune", author:"Léa Adjovi", genre:"poesie", price:1800 },
+  { id:10, title:"Fragments d'Aube", author:"Samuel Kponou", genre:"poesie", price:1800 },
+  { id:11, title:"La Cité aux Mille Lumières", author:"Awa Bello", genre:"fiction", price:2600, badge:"Nouveau" },
+  { id:12, title:"Bâtir sans Peur", author:"Yannick Assogba", genre:"devperso", price:2900 },
+];
+
+/* ============================================================
+   Génération de couvertures "constellation" — signature visuelle
+   du site. Chaque titre génère un motif d'étoiles unique et stable.
+   ============================================================ */
+function hashSeed(str){
+  let h = 2166136261;
+  for(let i=0;i<str.length;i++){ h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return h >>> 0;
+}
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function constellationSVG(title, color, w=300, h=400){
+  const rnd = mulberry32(hashSeed(title));
+  const n = 7 + Math.floor(rnd()*4);
+  const pts = [];
+  for(let i=0;i<n;i++){
+    pts.push({ x: 20 + rnd()*(w-40), y: 20 + rnd()*(h-40), r: 1.4 + rnd()*2.2 });
+  }
+  // connect each point to its nearest 1-2 neighbors for a constellation feel
+  let lines = "";
+  for(let i=0;i<pts.length;i++){
+    const dists = pts.map((p,j) => ({j, d: j===i ? Infinity : Math.hypot(p.x-pts[i].x, p.y-pts[i].y)}))
+      .sort((a,b)=>a.d-b.d).slice(0, 2);
+    dists.forEach(d => {
+      lines += `<line x1="${pts[i].x.toFixed(1)}" y1="${pts[i].y.toFixed(1)}" x2="${pts[d.j].x.toFixed(1)}" y2="${pts[d.j].y.toFixed(1)}" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>`;
+    });
+  }
+  const stars = pts.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${p.r.toFixed(1)}" fill="#fff"/>`).join("");
+  const gid = "g" + hashSeed(title);
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <radialGradient id="${gid}" cx="30%" cy="25%" r="85%">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.55"/>
+        <stop offset="100%" stop-color="#0F0D26" stop-opacity="1"/>
+      </radialGradient>
+    </defs>
+    <rect width="${w}" height="${h}" fill="url(#${gid})"/>
+    ${lines}${stars}
+  </svg>`;
+}
+
+/* ============================================================
+   Rendu — pas besoin de modifier en dessous
+   ============================================================ */
+const waLink = (msg) => `https://wa.me/${WHATSAPP_NUMBER}${msg ? "?text=" + encodeURIComponent(msg) : ""}`;
+const genericMsg = `Bonjour ${STORE_NAME} 👋 je souhaite commander un ebook.`;
+
+["navCta","heroCta","bandCta","footWa","floatWa"].forEach(id => {
+  document.getElementById(id).href = waLink(genericMsg);
+});
+document.getElementById("bookCount").textContent = `${BOOKS.length} livres au catalogue`;
+
+// Genre pills
+const orbitEl = document.getElementById("genreOrbit");
+let activeGenre = "all";
+function renderPills(){
+  const all = [{key:"all", label:"Tout"}, ...Object.entries(GENRES).map(([key,v]) => ({key, label:v.label}))];
+  orbitEl.innerHTML = all.map(g => `<button class="genre-pill ${g.key===activeGenre?'active':''}" data-g="${g.key}">${g.label}</button>`).join("");
+  orbitEl.querySelectorAll(".genre-pill").forEach(btn => {
+    btn.addEventListener("click", () => { activeGenre = btn.dataset.g; renderPills(); renderGrid(); });
+  });
+}
+
+const gridEl = document.getElementById("grid");
+function fmtPrice(p){ return p.toLocaleString("fr-FR") + " FCFA"; }
+function renderGrid(){
+  const list = activeGenre === "all" ? BOOKS : BOOKS.filter(b => b.genre === activeGenre);
+  gridEl.innerHTML = list.map(b => {
+    const g = GENRES[b.genre];
+    const msg = `Bonjour ${STORE_NAME} 👋 je suis intéressé(e) par l'ebook : ${b.title} (${fmtPrice(b.price)}). Comment l'obtenir ?`;
+    return `
+      <div class="book-card">
+        <div class="cover">
+          ${b.badge ? `<span class="cover-badge">${b.badge}</span>` : ""}
+          ${constellationSVG(b.title, g.color)}
+        </div>
+        <div class="book-body">
+          <span class="book-genre">${g.label}</span>
+          <span class="book-title">${b.title}</span>
+          <span class="book-author">${b.author}</span>
+          <div class="book-bottom">
+            <span class="book-price">${fmtPrice(b.price)}</span>
+            <a class="book-order" href="${waLink(msg)}" target="_blank" rel="noopener" aria-label="Commander ${b.title}">→</a>
+          </div>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+// Big constellation for the about section
+document.getElementById("bigConstellation").innerHTML = constellationSVG("StarsHub — l'univers du savoir", "#8B6BFF", 500, 500);
+
+renderPills();
+renderGrid();
+</script>
+
+</body>
+</html>
