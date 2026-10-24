@@ -158,12 +158,13 @@
   button.book-title:hover{color:var(--teal);}
   .modal{position:fixed; inset:0; z-index:300; display:none; align-items:center; justify-content:center; padding:24px; background:rgba(8,7,24,0.78); backdrop-filter:blur(8px);}
   .modal.open{display:flex;}
-  .modal-box{position:relative; width:min(980px,100%); max-height:calc(100vh - 48px); overflow:hidden; background:var(--surface); border:1px solid var(--line); border-radius:24px; display:grid; grid-template-columns:330px 1fr; box-shadow:0 40px 90px -30px rgba(0,0,0,0.7); animation:pop .22s ease-out;}
+  .modal-box{position:relative; width:min(980px,100%); max-height:calc(100vh - 48px); overflow:hidden; background:var(--surface); border:1px solid var(--line); border-radius:24px; display:grid; grid-template-columns:330px minmax(0,1fr); box-shadow:0 40px 90px -30px rgba(0,0,0,0.7); animation:pop .22s ease-out;}
   @keyframes pop{from{opacity:0; transform:translateY(14px) scale(.98);} to{opacity:1; transform:none;}}
   .modal-cover{background:#fff; position:relative; min-height:100%;}
   .modal-cover img{width:100%; height:100%; object-fit:contain; position:absolute; inset:0;}
   .modal-cover svg{width:100%; height:100%; position:absolute; inset:0;}
-  .modal-main{padding:34px 36px 30px; overflow-y:auto; max-height:calc(100vh - 48px); display:flex; flex-direction:column;}
+  .modal-main > *{flex-shrink:0;}
+  .modal-main{min-width:0; padding:34px 36px 30px; overflow-y:auto; max-height:calc(100vh - 48px); display:flex; flex-direction:column;}
   .modal-close{position:absolute; top:14px; right:14px; z-index:5; width:38px; height:38px; border-radius:50%; border:1px solid var(--line); background:rgba(15,13,38,0.75); color:var(--paper); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;}
   .modal-close:hover{background:var(--surface-2);}
   .modal-genre{font-family:'Space Mono'; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--teal);}
@@ -195,11 +196,28 @@
   body.modal-open{overflow:hidden;}
   @media (max-width:760px){
     .modal{padding:0; align-items:flex-end;}
-    .modal-box{grid-template-columns:1fr; width:100%; max-height:94vh; border-radius:22px 22px 0 0; overflow-y:auto;}
+    .modal-box{grid-template-columns:minmax(0,1fr); width:100%; max-height:94vh; border-radius:22px 22px 0 0; overflow-y:auto;}
     .modal-cover{height:260px; min-height:0;}
       .modal-main{padding:24px 20px 28px; overflow:visible; max-height:none;}
     .modal-close{background:rgba(15,13,38,0.9);}
   }
+
+
+  /* ---------- Extraits de livres ---------- */
+  .ex-tag{position:absolute; right:10px; top:10px; z-index:2; font:600 11.5px 'Inter'; padding:5px 10px; border-radius:100px; background:rgba(15,13,38,0.82); color:var(--teal); border:1px solid rgba(47,224,196,0.35); backdrop-filter:blur(6px);}
+  .extract{position:relative; border:1px solid var(--line); border-radius:18px; padding:24px 28px 26px; background:linear-gradient(180deg,rgba(139,107,255,0.10),rgba(255,95,168,0.04) 60%,rgba(255,255,255,0.02));}
+  .ex-label{font-family:'Space Mono'; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--teal); margin-bottom:18px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+  .ex-label b{color:var(--amber); font-weight:700;}
+  .ex-body p{font-family:'Fraunces',Georgia,serif; font-size:17px; line-height:1.85; color:var(--paper); margin-bottom:16px;}
+  .ex-body p.first::first-letter{float:left; font-size:3.7em; line-height:.8; padding:7px 10px 0 0; font-weight:700; color:var(--pink);}
+  .ex-pull{margin:24px 0; padding:6px 0 6px 20px; border-left:3px solid var(--pink); font-family:'Fraunces',Georgia,serif; font-style:italic; font-size:clamp(19px,2.2vw,23px); line-height:1.5; color:#fff;}
+  .ex-body p.fade{margin-bottom:0; -webkit-mask-image:linear-gradient(180deg,#000 15%,transparent 100%); mask-image:linear-gradient(180deg,#000 15%,transparent 100%);}
+  .ex-end{text-align:center; margin-top:10px;}
+  button.btn{font-family:inherit; cursor:pointer;}
+  button.btn-ghost{background:var(--surface-2); border:1px solid var(--line); color:var(--paper);}
+  button.btn-ghost:hover{border-color:rgba(47,224,196,0.5);}
+  .ex-end p{font:600 14px 'Inter'; color:var(--paper-dim); margin-bottom:14px;}
+  @media (max-width:760px){ .extract{padding:20px 18px 22px;} .ex-body p{font-size:16px; line-height:1.8;} }
 
   /* ---------- Band ---------- */
   .band{position:relative; z-index:1; margin:20px 24px; padding:64px 40px; border-radius:28px; overflow:hidden;
@@ -286,7 +304,7 @@
   <div class="hero-inner">
     <span class="eyebrow">✦ Bibliothèque numérique — nouveaux titres chaque semaine</span>
     <h1>Le savoir est<br>une <span class="grad">étoile</span></h1>
-    <p>Fiction, développement personnel, business, éducation — StarsHub rassemble des ebooks pour tous les esprits curieux. Choisissez, commandez, recevez.</p>
+    <p>Développement personnel, mental de champion, business — StarsHub rassemble des ebooks pratiques pour tous les esprits curieux. Choisissez, commandez, recevez.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" id="heroCta" href="#" target="_blank" rel="noopener">💬 Commander sur WhatsApp</a>
       <a class="btn btn-ghost" href="#bibliotheque">Explorer la bibliothèque ↓</a>
@@ -302,7 +320,7 @@
         <span class="count-tag" id="bookCount">— livres au catalogue</span>
         <h2>La bibliothèque</h2>
       </div>
-      <p>Chaque couverture est une constellation unique, générée pour ce titre — en attendant vos vraies jaquettes.</p>
+      <p>Des guides à lire et à appliquer. Cliquez sur un livre pour découvrir son sommaire et lire un extrait gratuit.</p>
     </div>
     <div class="grid" id="grid"></div>
   </div>
@@ -380,7 +398,7 @@
 /* ============================================================
    CONFIG — à personnaliser
    ============================================================ */
-const WHATSAPP_NUMBER = "229XXXXXXXXX"; // ⚠️ remplacez par votre vrai numéro (indicatif sans le +, sans le 0 initial)
+const WHATSAPP_NUMBER = "2290141680270"; // +229 01 41 68 02 70 (Bénin : numéros à 10 chiffres avec le préfixe 01). Sans le +, sans espaces.
 const STORE_NAME = "StarsHub";
 
 /* ============================================================
@@ -431,6 +449,7 @@ const BOOKS = [
         "Trouver tes 30 premiers clients",
         "Gérer et développer ton activité sans négliger tes études"
       ],
+      extract:{"label": "Introduction · Pourquoi commencer maintenant ?", "paragraphs": ["Beaucoup d'étudiants attendent d'avoir leur diplôme pour penser à l'argent, puis cherchent un emploi pendant des mois, voire des années. Pendant ce temps, d'autres lancent leur activité dès la deuxième ou la troisième année et arrivent sur le marché du travail avec de l'expérience, des clients et un revenu. Aïcha, étudiante à Cotonou, a remarqué que ses camarades perdaient beaucoup de temps à chercher de quoi déjeuner. Elle a interrogé 12 étudiants, proposé un plat du jour à 1 000 FCFA livré à la porte de l'amphi, et récolté 8 précommandes sur WhatsApp. Résultat : 8 ventes, et 3 personnes qui redemandaient le lendemain.", "Mythe n°1 : « Il faut beaucoup d'argent pour commencer. » Faux. Beaucoup de business démarrent avec 5 000 à 25 000 FCFA, voire zéro : un service (rédaction, cours, graphisme) ne demande que tes compétences…"], "pull": "Teste avant d'investir. Les opinions ne valent rien, les ventes valent tout."},
       toc:[
         { title:"Partie 1 : La méthode en 10 étapes", items:[
           "Trouver et tester son idée", "Étudier le marché et les clients", "Définir son offre",
@@ -461,7 +480,7 @@ const BOOKS = [
         ["Contenu", "10 étapes · 40 idées · plan de 30 jours"], ["Niveau", "Débutant, aucun prérequis"]
       ]
     } },
-  { id:101, title:"Développe un Jeu d'Élite : la Méthode Facile", author:"StarsHub", genre:"basket", price:3000, cover:COVER_JEU_ELITE,
+  { id:101, title:"Développe un Jeu d'Élite : la Méthode Facile", author:"StarsHub", genre:"basket", price:2000, cover:COVER_JEU_ELITE,
     details:{
       chips:["PDF", "33 pages", "Français"],
       pitch:"Ce que les champions savent et que personne ne t'a jamais dit. Une méthode simple pour penser et construire ton jeu : comprendre le vrai but du basketball, développer un style unique, gérer tes émotions, rester concentré et vivre comme un champion, sur le terrain comme en dehors.",
@@ -470,54 +489,46 @@ const BOOKS = [
       audience:["Les joueurs de basketball qui refusent de rester moyens", "Ceux qui ont du talent mais manquent de méthode", "Les jeunes joueurs qui veulent des idées simples à appliquer chaque jour"],
       facts:[["Pages", "33"], ["Format", "PDF"], ["Langue", "Français"], ["Public", "Joueurs de basketball"]]
     } },
-  { id:102, title:"Plus Jamais Faible : Rejoins le club des 1%", author:"StarsHub", genre:"basket", price:1500, cover:COVER_FAIBLE,
+  { id:102, title:"Plus Jamais Faible : Rejoins le club des 1%", author:"StarsHub", genre:"basket", price:800, cover:COVER_FAIBLE,
     details:{
       chips:["PDF", "12 pages", "Français"],
       pitch:"Un guide court et direct pour ceux qui ont connu l'échec, l'humiliation ou la peur de ne jamais devenir ce qu'ils rêvent d'être. Tu apprends à penser comme l'élite, à changer ta personnalité sur le terrain, à te fixer des objectifs atteignables et à comprendre que le succès est un état d'esprit.",
       learn:["Penser comme le club des 1% : construire plutôt que compter sur le talent", "Comprendre comment le mental de Michael Jordan s'est forgé", "Changer ta perception du jeu avant de changer ton jeu", "Pratiquer trois exercices : posture de dominant, discours intérieur, preuve accumulée", "Te fixer un objectif mensuel mesurable, avec un suivi chaque semaine", "Faire du succès un état d'esprit, pas un niveau à atteindre"],
+      extract:{"label": "Introduction · La dernière fois que tu te sentiras faible", "paragraphs": ["Si tu as déjà connu l'échec, celui qui te retourne l'estomac. Si tu as déjà connu l'humiliation, celle qu'on n'oublie jamais vraiment, celle qui repasse en boucle dans ta tête à trois heures du matin. Si tu as déjà eu peur, terriblement peur, de ne jamais devenir ce que tu rêves d'être. Si tu veux contrôler ce terrain, le dominer, le posséder chaque fois que tu y mets les pieds, alors ce livre arrive exactement au bon moment. Parce que c'est précisément maintenant que ça s'arrête.", "Je ne vais pas te mentir en te disant que ce sera facile. Je ne vais pas non plus te vendre une méthode miracle qui te transformera en une nuit. Ce que je vais faire, c'est te montrer la route exacte qu'empruntent ceux qui ont rejoint ce que j'appelle le club des 1%…"], "pull": "Le changement commence toujours par ce moment inconfortable où tu regardes ta propre médiocrité en face, sans excuse, sans justification."},
       toc:[{ title:"Les chapitres", items:["Introduction : La dernière fois que tu te sentiras faible", "1. Le club des 1%", "2. Change de personnalité, change de terrain", "3. Des objectifs que tu peux vraiment atteindre", "4. Le succès n'est pas un niveau, c'est un état d'esprit", "Conclusion : Le jour où la faiblesse a changé de camp"] }],
       audience:["Les joueurs qui doutent d'eux après un échec", "Ceux qui veulent plus de confiance sur le terrain", "Ceux qui cherchent une méthode claire pour fixer leurs objectifs"],
       facts:[["Pages", "12"], ["Format", "PDF"], ["Langue", "Français"], ["Public", "Joueurs de basketball"]]
     } },
-  { id:103, title:"Story of Ball : Leur combat était le tien", author:"StarsHub", genre:"basket", price:2500, cover:COVER_STORY,
+  { id:103, title:"Story of Ball : Leur combat était le tien", author:"StarsHub", genre:"basket", price:1500, cover:COVER_STORY,
     details:{
       chips:["PDF", "25 pages", "Français"],
       pitch:"Les parcours de joueurs qui ont marqué le basketball mondial, racontés sans enjoliver : refus, doutes, précarité, erreurs et retours. Avec les histoires de Michael Jordan, Stephen Curry, LeBron James, Kobe Bryant, Victor Wembanyama, Ja Morant, Kevin Durant, Giannis Antetokounmpo, Luka Dončić et d'autres. Un miroir pour comprendre que ton chemin a déjà été emprunté, et une feuille de route pour écrire le tien.",
       learn:["Comment des légendes ont trouvé leur vocation, souvent dans des conditions fragiles", "Faire la différence entre un obstacle et un mur", "Fixer un objectif qui te fait légèrement peur", "Voir grand sans mépriser le premier pas", "Tracer ta propre feuille de route sur trois mois", "Retenir les cinq messages que presque tous ces joueurs te donneraient"],
+      extract:{"label": "Introduction · Le prix que personne ne montre à la télévision", "paragraphs": ["Quand tu regardes un joueur NBA évoluer sous les projecteurs, tu ne vois que le résultat final. Le maillot qui brille, le stade plein, le buzzer beater qui fait exploser une salle entière. Ce que tu ne vois presque jamais, c'est tout ce qui s'est passé avant, dans l'ombre, loin des caméras : les refus, les doutes, les nuits où personne ne croyait en eux, parfois même pas leur propre famille. Ce livre existe pour te montrer cette partie invisible de l'histoire, celle qui compte le plus, parce que c'est elle qui explique vraiment comment un enfant ordinaire devient un jour une légende.", "Ce livre n'est pas juste un recueil d'anecdotes sur des stars lointaines et inaccessibles. C'est un miroir. Leur histoire n'est pas seulement inspirante. Elle est une preuve concrète que le chemin que tu empruntes actuellement, aussi incertain soit-il, a déjà été emprunté par d'autres…"], "pull": "Ce qui compte, ce n'est jamais l'absence de chute. C'est ce qu'on fait après être tombé."},
       toc:[{ title:"Les chapitres", items:["Introduction : Le prix que personne ne montre à la télévision", "1. Le début : comment ils ont trouvé leur vocation", "2. Pourquoi tu es destiné : les obstacles ne sont pas des murs", "3. Ton succès, c'est maintenant", "4. Portraits express : ceux qui écrivent l'histoire aujourd'hui", "5. Ta feuille de route vers ta propre histoire", "6. Ce que tous, sans exception, diraient à ceux qui croient encore", "Conclusion : Le ballon ne ment jamais"] }],
       audience:["Les fans de basketball curieux de la face cachée des carrières", "Les jeunes joueurs qui se sentent invisibles ou découragés", "Ceux qui cherchent une inspiration concrète pour continuer"],
       facts:[["Pages", "25"], ["Format", "PDF"], ["Langue", "Français"], ["Public", "Fans et joueurs de basketball"]]
     } },
-  { id:104, title:"Vaincre la Peur", author:"StarsHub", genre:"devperso", price:2000, cover:COVER_PEUR,
+  { id:104, title:"Vaincre la Peur", author:"StarsHub", genre:"devperso", price:1000, cover:COVER_PEUR,
     details:{
       chips:["PDF", "18 pages", "Français"],
       pitch:"La peur n'a jamais été ton ennemie : c'est un signal mal interprété. Ce guide t'explique d'où elle vient, comment affronter la peur de l'échec et celle du jugement des autres, comment agir malgré elle et comment la transformer en carburant, avec des exercices concrets à faire dès aujourd'hui.",
       learn:["Comprendre d'où vient la peur et pourquoi ton corps réagit ainsi", "Renommer la sensation : passer de « j'ai peur » à « je suis prêt »", "Voir l'échec comme une donnée, pas comme une identité", "Dépasser la peur du jugement des autres", "Avancer avec la méthode des petits pas et la respiration 4-2-6", "Utiliser la visualisation et un rituel personnel avant les moments clés"],
+      extract:{"label": "Introduction · La nuit où tu as failli ne pas y aller", "paragraphs": ["Il y a un soir, dans ta vie, où tu as failli ne pas y aller. Tu t'en souviens ? Peut-être que c'était un match. Peut-être un entretien, un premier jour, une scène, une déclaration que tu voulais faire à quelqu'un. Ton cœur battait trop vite. Ton ventre était noué. Une petite voix, très convaincante, te disait de rester chez toi, de remettre ça à plus tard, de laisser passer ta chance à quelqu'un de plus courageux que toi. Cette voix, tu la connais. Elle s'appelle la peur, et elle a probablement déjà gagné plus de combats contre toi que n'importe quel adversaire réel.", "Ce livre ne va pas te promettre de faire disparaître cette voix. Ce serait un mensonge, et je ne suis pas ici pour te mentir. La peur ne disparaît jamais complètement, même chez les plus grands champions, même chez les gens que tu admires le plus…"], "pull": "La peur n'a jamais été le mur. Elle n'a toujours été que la porte."},
       toc:[{ title:"Les chapitres", items:["Introduction : La nuit où tu as failli ne pas y aller", "1. D'où vient réellement la peur", "2. La peur de l'échec", "3. La peur du jugement des autres", "4. Agir malgré la peur", "5. Transformer la peur en carburant", "Conclusion : De l'autre côté"] }],
       audience:["Ceux qui repoussent une décision ou une action à cause de la peur", "Les sportifs qui perdent leurs moyens sous pression", "Ceux qui redoutent un examen, un oral ou une conversation difficile"],
       facts:[["Pages", "18"], ["Format", "PDF"], ["Langue", "Français"], ["Public", "Tout public"]]
     } },
-  { id:105, title:"Tu es ton Propre Obstacle", author:"StarsHub", genre:"devperso", price:2500, cover:COVER_OBSTACLE,
+  { id:105, title:"Tu es ton Propre Obstacle", author:"StarsHub", genre:"devperso", price:1500, cover:COVER_OBSTACLE,
     details:{
       chips:["PDF", "30 pages", "Français"],
       pitch:"Ce qui te bloque n'est jamais dehors, c'est toujours dedans. Un guide de transformation en 7 chapitres pour identifier tes habitudes et tes croyances limitantes, comprendre que changer ton intérieur change ton extérieur, construire ta discipline et suivre un plan de 30 jours.",
       learn:["Identifier tes habitudes et tes croyances limitantes", "Comprendre pourquoi changer ton intérieur change ton extérieur", "Voir que la limite la plus déterminante est souvent celle que tu t'imposes", "Utiliser le pouvoir de la répétition quotidienne", "Te relever quand l'obstacle, c'est encore toi", "Construire ta discipline intérieure", "Appliquer un plan de 30 jours"],
+      extract:{"label": "Introduction · Le seul adversaire que tu affronteras toute ta vie", "paragraphs": ["Tu as sûrement déjà cherché, à un moment ou un autre, une explication extérieure à ce qui ne fonctionnait pas dans ta vie. Le manque de chance, un coach qui ne t'a pas donné ta chance, un physique jugé insuffisant, un environnement qui ne t'a pas soutenu. Ces explications sont confortables parce qu'elles te déchargent d'une responsabilité difficile à porter. Mais elles sont, la plupart du temps, fausses, ou en tout cas très incomplètes.", "La vérité, plus dure mais infiniment plus utile, est que ton plus grand adversaire ne porte jamais un autre maillot que le tien. Ce n'est pas l'équipe en face, ce n'est pas le sélectionneur qui ne t'a pas repéré, ce n'est même pas la malchance. C'est toi…"], "pull": "Tu es ton propre obstacle. Tu es aussi ta propre solution."},
       toc:[{ title:"Les chapitres", items:["Introduction : Le seul adversaire que tu affronteras toute ta vie", "1. Ta personnalité : habitudes et croyances", "2. Lorsque tu changes ton intérieur, l'extérieur change", "3. Tu peux devenir tout ce que tu souhaites", "4. Le pouvoir de la répétition quotidienne", "5. Se relever quand l'obstacle, c'est encore toi", "6. Construire ta discipline intérieure", "7. Ton plan des 30 prochains jours", "Conclusion : Le miroir ne ment jamais"] }],
       audience:["Ceux qui cherchent toujours une cause extérieure à leurs blocages", "Les joueurs et les étudiants qui stagnent malgré leurs efforts", "Ceux qui veulent un plan concret sur 30 jours"],
       facts:[["Pages", "30"], ["Format", "PDF"], ["Langue", "Français"], ["Public", "Tout public"]]
     } },
-  { id:1, title:"L'Écho des Sables", author:"Awa Bello", genre:"fiction", price:2500, badge:"Nouveau" },
-  { id:2, title:"Le Dernier Baobab", author:"Kwame Sori", genre:"fiction", price:2000 },
-  { id:3, title:"Discipline Quotidienne", author:"Fatou N'Diaye", genre:"devperso", price:3000, badge:"Populaire" },
-  { id:4, title:"Se Réinventer à 30 Ans", author:"Ibrahim Coulibaly", genre:"devperso", price:2800 },
-  { id:5, title:"Vendre sans Vendre", author:"Chidi Okafor", genre:"business", price:3500 },
-  { id:6, title:"Le Petit Guide de l'Entrepreneur", author:"Aïcha Traoré", genre:"business", price:3000, badge:"Populaire" },
-  { id:7, title:"Comprendre l'Économie Locale", author:"Moussa Diarra", genre:"education", price:2200 },
-  { id:8, title:"Apprendre à Apprendre", author:"Grace Mensah", genre:"education", price:2000 },
-  { id:9, title:"Murmures de la Lagune", author:"Léa Adjovi", genre:"poesie", price:1800 },
-  { id:10, title:"Fragments d'Aube", author:"Samuel Kponou", genre:"poesie", price:1800 },
-  { id:11, title:"La Cité aux Mille Lumières", author:"Awa Bello", genre:"fiction", price:2600, badge:"Nouveau" },
-  { id:12, title:"Bâtir sans Peur", author:"Yannick Assogba", genre:"devperso", price:2900 },
 ];
 
 /* ============================================================
@@ -582,7 +593,7 @@ document.getElementById("bookCount").textContent = `${BOOKS.length} livres au ca
 const orbitEl = document.getElementById("genreOrbit");
 let activeGenre = "all";
 function renderPills(){
-  const all = [{key:"all", label:"Tout"}, ...Object.entries(GENRES).map(([key,v]) => ({key, label:v.label}))];
+  const all = [{key:"all", label:"Tout"}, ...Object.entries(GENRES).filter(([key]) => BOOKS.some(b => b.genre === key)).map(([key,v]) => ({key, label:v.label}))];
   orbitEl.innerHTML = all.map(g => `<button class="genre-pill ${g.key===activeGenre?'active':''}" data-g="${g.key}">${g.label}</button>`).join("");
   orbitEl.querySelectorAll(".genre-pill").forEach(btn => {
     btn.addEventListener("click", () => { activeGenre = btn.dataset.g; renderPills(); renderGrid(); });
@@ -600,6 +611,7 @@ function renderGrid(){
       <div class="book-card" data-id="${b.id}">
         <div class="cover ${b.cover ? 'photo' : ''}">
           ${b.badge ? `<span class="cover-badge">${b.badge}</span>` : ""}
+          ${b.details && b.details.extract ? `<span class="ex-tag">📖 Extrait</span>` : ""}
           ${b.cover ? `<img src="${b.cover}" alt="Couverture de ${b.title}" loading="lazy">` : constellationSVG(b.title, g.color)}
         </div>
         <div class="book-body">
@@ -641,12 +653,31 @@ function openModal(id){
   document.getElementById("mBuy").innerHTML = `
     <span class="modal-price">${fmtPrice(b.price)}</span>
     <a class="btn btn-primary" href="${waLink(msg)}" target="_blank" rel="noopener">💬 Commander sur WhatsApp</a>
+    ${d.extract ? `<button type="button" class="btn btn-ghost" id="mExBtn">📖 Lire un extrait</button>` : ""}
     ${b.pdf ? `<a class="btn btn-ghost" href="${b.pdf}" target="_blank" rel="noopener">📄 Ouvrir le PDF</a>` : ""}`;
 
   const tabs = [];
   tabs.push({ key:"apercu", label:"Aperçu", html:
     `<p>${d.pitch || `Un ebook de la catégorie « ${g.label} », proposé par ${STORE_NAME}. Écris-nous sur WhatsApp pour en savoir plus et le recevoir.`}</p>` +
     (d.learn ? `<h4>Ce que tu vas apprendre</h4>${li(d.learn)}` : "") });
+  if(d.extract){
+    const ex = d.extract, ps = ex.paragraphs;
+    const exMsg = `Bonjour ${STORE_NAME} 👋 j'ai lu l'extrait de « ${b.title} » et je veux le livre complet (${fmtPrice(b.price)}). Comment l'obtenir ?`;
+    const para = (t, i) => `<p class="${i === 0 ? "first" : ""} ${i === ps.length - 1 ? "fade" : ""}">${t}</p>`;
+    tabs.push({ key:"extrait", label:"📖 Extrait", html: `
+      <div class="extract">
+        <div class="ex-label"><b>Extrait gratuit</b> · ${ex.label}</div>
+        <div class="ex-body">
+          ${para(ps[0], 0)}
+          ${ex.pull ? `<blockquote class="ex-pull">« ${ex.pull} »</blockquote>` : ""}
+          ${ps.slice(1).map((t, i) => para(t, i + 1)).join("")}
+        </div>
+        <div class="ex-end">
+          <p>La suite t'attend dans le livre complet.</p>
+          <a class="btn btn-primary" href="${waLink(exMsg)}" target="_blank" rel="noopener">💬 Recevoir le livre complet · ${fmtPrice(b.price)}</a>
+        </div>
+      </div>` });
+  }
   if(d.toc) tabs.push({ key:"sommaire", label:"Sommaire", html:
     d.toc.map(s => `<div class="toc-group"><h5>${s.title}</h5>${li(s.items)}</div>`).join("") });
   if(d.audience) tabs.push({ key:"pour", label:"Pour qui ?", html: `<h4>Ce livre est fait pour</h4>${li(d.audience)}` });
@@ -669,6 +700,17 @@ function openModal(id){
       const n = tabBtns[(i + (e.key === "ArrowRight" ? 1 : tabBtns.length - 1)) % tabBtns.length];
       select(n.dataset.t); n.focus();
     });
+  });
+
+  const exBtn = document.getElementById("mExBtn");
+  if(exBtn) exBtn.addEventListener("click", () => {
+    select("extrait");
+    const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const main = modalEl.querySelector(".modal-main"), box = modalEl.querySelector(".modal-box");
+    const sc = getComputedStyle(main).overflowY === "auto" ? main : box;
+    const tabsEl2 = document.getElementById("mTabs");
+    const top = sc.scrollTop + tabsEl2.getBoundingClientRect().top - sc.getBoundingClientRect().top - 10;
+    sc.scrollTo({ top: Math.max(0, top), behavior: reduce ? "auto" : "smooth" });
   });
 
   modalEl.classList.add("open"); modalEl.setAttribute("aria-hidden", "false");
