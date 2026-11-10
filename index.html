@@ -466,10 +466,68 @@
   .brand-word .hub{margin-left:2px; padding:.05em .2em .09em; border-radius:.24em; background:var(--orange); color:#111; font-weight:600;}
   .brand-sub{font-family:'Special Elite','Courier New',monospace; font-size:12.5px; letter-spacing:0.14em; color:var(--paper); opacity:.85;}
   .eyebrow{font-family:'Special Elite','Space Mono',monospace; letter-spacing:0.05em;}
-  .hero::before{content:""; position:absolute; left:50%; top:47%; width:min(860px,92vw); aspect-ratio:1.337; translate:-50% -50%; background:var(--books) center/contain no-repeat; opacity:.07; pointer-events:none; z-index:0; animation:bookDrift 16s ease-in-out infinite;}
+  .hero::before{content:""; position:absolute; left:50%; top:47%; width:min(860px,92vw); aspect-ratio:1.337; translate:-50% -50%; background:var(--books) center/contain no-repeat; opacity:.07; pointer-events:none; z-index:0; transform:rotate(-6deg);}
   @keyframes bookDrift{0%,100%{transform:rotate(-7deg) scale(1);} 50%{transform:rotate(-3deg) scale(1.06);}}
   footer .brand{margin-bottom:14px;}
   @media (max-width:640px){ .brand-mark{width:42px; height:31px;} .brand-word{font-size:22px;} .brand-sub{font-size:11px;} }
+
+  /* ---------- Questionnaire (5 questions) ---------- */
+  .qz-cta{position:relative; z-index:1; padding:10px 24px 70px;}
+  .qz-cta-inner{max-width:1120px; margin:0 auto; padding:38px 40px; border-radius:26px; display:grid; grid-template-columns:1fr auto; gap:30px; align-items:center;
+    background:linear-gradient(120deg, rgba(255,122,26,0.12), rgba(255,87,87,0.16)); border:1px solid rgba(255,122,26,0.3);}
+  .qz-cta h3{font-family:'Fraunces'; font-weight:600; font-size:clamp(24px,3.2vw,34px); line-height:1.2; margin:10px 0 8px;}
+  .qz-cta p{color:var(--paper-dim); font-size:15px; line-height:1.65; max-width:520px; margin-bottom:22px;}
+  .qz-dots{display:flex; gap:10px; align-items:center;}
+  .qz-dots i{display:block; width:46px; height:46px; border-radius:50%; border:1.5px solid rgba(255,196,107,0.5); color:var(--gold); font:600 15px 'Space Grotesk'; font-style:normal; display:flex; align-items:center; justify-content:center; animation:dotPulse 3s ease-in-out infinite;}
+  .qz-dots i:nth-child(2){animation-delay:.25s;} .qz-dots i:nth-child(3){animation-delay:.5s;} .qz-dots i:nth-child(4){animation-delay:.75s;} .qz-dots i:nth-child(5){animation-delay:1s;}
+  @keyframes dotPulse{0%,100%{background:transparent; transform:scale(1);} 50%{background:rgba(255,122,26,0.22); transform:scale(1.12);}}
+  @media (max-width:760px){ .qz-cta{padding:0 16px 50px;} .qz-cta-inner{grid-template-columns:1fr; padding:28px 22px;} .qz-dots i{width:40px; height:40px;} }
+
+  .qz-invite{position:fixed; left:20px; bottom:20px; z-index:440; width:min(380px, calc(100vw - 40px)); padding:16px 16px 14px 18px; border-radius:18px;
+    background:rgba(19,17,22,0.96); backdrop-filter:blur(12px); border:1px solid rgba(255,122,26,0.4); box-shadow:0 30px 60px -24px rgba(0,0,0,0.8);
+    transform:translateY(40px) scale(.95); opacity:0; visibility:hidden; transition:transform .7s cubic-bezier(.34,1.56,.64,1), opacity .4s, visibility 0s .7s;}
+  .qz-invite.show{transform:none; opacity:1; visibility:visible; transition-delay:0s;}
+  .qz-invite strong{display:block; font:600 15px 'Space Grotesk'; margin-bottom:4px;}
+  .qz-invite span.t{display:block; font-size:13px; color:var(--paper-dim); line-height:1.5; margin-bottom:12px;}
+  .qz-invite .row{display:flex; gap:8px;}
+  .qz-invite .ck-btn{padding:10px 14px; flex:1 1 auto;}
+  .qz-x{position:absolute; top:8px; right:8px; width:28px; height:28px; border-radius:50%; border:0; background:transparent; color:var(--paper-dim); font-size:15px; cursor:pointer;}
+  .qz-x:hover{background:var(--surface-2); color:var(--paper);}
+  @media (max-width:640px){ .qz-invite{left:10px; right:86px; bottom:10px; width:auto;} }
+
+  .qz-overlay{position:fixed; inset:0; z-index:480; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(3,3,5,0.82); backdrop-filter:blur(8px);}
+  .qz-overlay.open{display:flex;}
+  .qz-box{position:relative; width:min(560px,100%); max-height:calc(100vh - 40px); overflow-y:auto; background:var(--surface); border:1px solid var(--line); border-radius:24px; padding:26px 26px 22px; animation:modalIn .6s cubic-bezier(.2,.9,.25,1.12);}
+  .qz-close{position:absolute; top:14px; right:14px; width:36px; height:36px; border-radius:50%; border:1px solid var(--line); background:var(--surface-2); color:var(--paper); cursor:pointer; font-size:16px;}
+  .qz-top{font:600 12px 'Space Mono'; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; padding-right:40px;}
+  .qz-bar{height:6px; border-radius:6px; background:rgba(246,240,230,0.1); overflow:hidden; margin-bottom:22px;}
+  .qz-bar i{display:block; height:100%; width:0; border-radius:6px; background:linear-gradient(90deg,var(--coral),var(--orange)); transition:width .5s cubic-bezier(.2,.8,.2,1);}
+  .qz-step{border:0; min-width:0; animation:qzIn .45s cubic-bezier(.2,.8,.2,1) both;}
+  @keyframes qzIn{from{opacity:0; transform:translateX(28px);} to{opacity:1; transform:none;}}
+  .qz-step legend{font:600 clamp(19px,2.6vw,23px)/1.3 'Fraunces',Georgia,serif; margin-bottom:6px; padding:0; outline:none;}
+  .qz-hint{font-size:13px; color:var(--paper-dim); margin-bottom:16px;}
+  .qz-opts{display:grid; gap:10px;}
+  .qz-opt{position:relative; display:flex; align-items:center; gap:12px; padding:14px 16px; border:1.5px solid var(--line); border-radius:14px; background:var(--surface-2); cursor:pointer; font-size:14.5px; transition:border-color .2s, background .2s, transform .2s;}
+  .qz-opt:hover{border-color:rgba(255,122,26,0.5); transform:translateX(3px);}
+  .qz-opt input{position:absolute; opacity:0; inset:0; width:100%; height:100%; cursor:pointer; margin:0;}
+  .qz-mark{flex:none; width:22px; height:22px; border-radius:50%; border:1.8px solid var(--paper-dim); display:flex; align-items:center; justify-content:center; font-size:13px; color:transparent; transition:all .2s;}
+  .qz-opts.multi .qz-mark{border-radius:7px;}
+  .qz-opt:has(input:checked){border-color:var(--coral); background:rgba(255,87,87,0.12);}
+  .qz-opt:has(input:checked) .qz-mark{background:linear-gradient(135deg,var(--coral),var(--orange)); border-color:transparent; color:#1a0b08; font-weight:700;}
+  .qz-opt:has(input:focus-visible){outline:2.5px solid var(--orange); outline-offset:2px;}
+  .qz-text{width:100%; min-height:110px; resize:vertical; padding:14px 16px; border-radius:14px; border:1.5px solid var(--line); background:var(--surface-2); color:var(--paper); font:15px/1.6 'Inter',sans-serif;}
+  .qz-text:focus{outline:none; border-color:var(--orange);}
+  .qz-count{text-align:right; font-size:11.5px; color:var(--paper-dim); margin-top:6px;}
+  .qz-nav{display:flex; gap:10px; justify-content:space-between; align-items:center; margin-top:20px;}
+  .qz-nav .ck-btn{flex:0 1 auto; min-width:110px;}
+  .qz-nav .ck-btn[disabled]{opacity:.4; cursor:not-allowed; transform:none;}
+  .qz-error{min-height:18px; margin-top:10px; font-size:12.5px; color:#ff9a8a;}
+  .qz-recap{display:grid; gap:10px; margin:14px 0 6px;}
+  .qz-recap div{padding:12px 14px; border-radius:12px; background:var(--surface-2); border:1px solid var(--line); font-size:13.5px; line-height:1.5;}
+  .qz-recap b{display:block; font:600 11px 'Space Mono'; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:3px;}
+  .qz-priv{font-size:12px; color:var(--paper-dim); line-height:1.6; margin-top:12px;}
+  @media (max-width:520px){ .qz-box{padding:22px 18px 18px;} .qz-nav .ck-btn{min-width:90px;} }
+
   :focus-visible{outline:2.5px solid var(--orange); outline-offset:3px;}
   @media (prefers-reduced-motion: reduce){*{animation:none !important; transition:none !important;}}
 </style>
@@ -496,7 +554,6 @@
 <section class="hero">
   <div class="orb orb-1" aria-hidden="true"></div>
   <div class="orb orb-2" aria-hidden="true"></div>
-  <div class="hero-covers" id="heroCovers"></div>
   <div class="hero-inner">
     <span class="eyebrow">✦ Bibliothèque numérique — nouveaux titres chaque semaine</span>
     <h1>Le savoir est<br>une <span class="grad">étoile</span></h1>
@@ -551,6 +608,18 @@
   </div>
 </section>
 
+<section class="qz-cta" aria-labelledby="qzCtaTitle">
+  <div class="qz-cta-inner">
+    <div>
+      <span class="eyebrow">📝 30 secondes</span>
+      <h3 id="qzCtaTitle">Aide-nous à choisir tes prochains livres</h3>
+      <p>5 questions rapides. Tes réponses nous aident à écrire les guides dont tu as vraiment besoin.</p>
+      <button type="button" class="btn btn-primary" id="qzOpen">Répondre aux 5 questions</button>
+    </div>
+    <div class="qz-dots" aria-hidden="true"><i>1</i><i>2</i><i>3</i><i>4</i><i>5</i></div>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <div class="footer-top">
@@ -573,12 +642,32 @@
     </div>
     <div class="foot-bottom">
       <span>© 2026 StarsHub. Tous droits réservés.</span>
-      <span>Bibliothèque numérique · <button type="button" class="ck-link" id="ckManage">Gérer les cookies</button></span>
+      <span>Bibliothèque numérique · <button type="button" class="ck-link" id="ckManage">Gérer les cookies</button> · <button type="button" class="ck-link" id="qzFooter">Donner mon avis</button></span>
     </div>
   </div>
 </footer>
 
 <a class="wa-float" id="floatWa" href="#" target="_blank" rel="noopener" aria-label="Commander sur WhatsApp">💬</a>
+
+<!-- ===== Questionnaire : invitation + fenêtre ===== -->
+<div class="qz-invite" id="qzInvite" role="region" aria-label="Invitation au questionnaire" aria-hidden="true">
+  <button type="button" class="qz-x" id="qzInvX" aria-label="Fermer l'invitation">✕</button>
+  <strong>📝 5 questions, 30 secondes</strong>
+  <span class="t">Aide-nous à choisir les prochains livres de StarsHub.</span>
+  <div class="row">
+    <button type="button" class="ck-btn primary" id="qzInvGo">Répondre</button>
+    <button type="button" class="ck-btn" id="qzInvLater">Plus tard</button>
+  </div>
+</div>
+<div class="qz-overlay" id="qzOverlay" aria-hidden="true">
+  <div class="qz-box" role="dialog" aria-modal="true" aria-labelledby="qzTop">
+    <button type="button" class="qz-close" id="qzClose" aria-label="Fermer le questionnaire">✕</button>
+    <div class="qz-top" id="qzTop">Question 1 sur 5</div>
+    <div class="qz-bar" aria-hidden="true"><i id="qzBar"></i></div>
+    <div id="qzBody"></div>
+    <div class="sr" aria-live="polite" id="qzLive"></div>
+  </div>
+</div>
 
 <!-- ===== Bannière et paramètres des cookies ===== -->
 <div class="ck-banner" id="ckBanner" role="region" aria-label="Consentement aux cookies" aria-hidden="true">
@@ -982,7 +1071,7 @@ renderGrid();
 const FX = {
   tilt: 14,            // inclinaison 3D des livres au survol (en degrés, 0 = aucune)
   heroParallax: 0.18,  // vitesse de l'effet de profondeur de l'accueil au défilement
-  heroCovers: true,    // couvertures flottantes dans l'accueil (grands écrans)
+  heroCovers: false,   // couvertures flottantes dans l'accueil (retirées : mettre true pour les remettre, puis rajouter la balise hero-covers)
   cursorGlow: true,    // lueur qui suit la souris
   magnetic: true,      // boutons qui attirent légèrement la souris
   wordReveal: true,    // titre de l'accueil qui apparaît mot par mot
@@ -1082,7 +1171,7 @@ const FX = {
       if(el.dataset.rv) return; el.dataset.rv = "1";
       el.style.setProperty("--i", i || 0); el.classList.add("rv"); io.observe(el);
     };
-    document.querySelectorAll(".section-head, .band-inner, .about-grid > *, .footer-top, .foot-bottom").forEach((el, i) => mark(el, i % 2));
+    document.querySelectorAll(".section-head, .band-inner, .about-grid > *, .qz-cta-inner, .footer-top, .foot-bottom").forEach((el, i) => mark(el, i % 2));
     const grid = document.getElementById("grid");
     const markCards = () => {
       const cols = getComputedStyle(grid).gridTemplateColumns.split(" ").length || 1;
@@ -1149,6 +1238,144 @@ const FX = {
       });
     }
   }
+})();
+
+/* ============================================================
+   QUESTIONNAIRE — 5 questions, réponses envoyées par WhatsApp (rien n'est stocké sur un serveur)
+   Pour changer une question : modifiez le tableau QUIZ ci-dessous.
+   ============================================================ */
+const QUIZ_SETTINGS = { invite: true, inviteDelay: 20000 }; // invite:false = pas de petite invitation automatique
+const QUIZ = [
+  { id: "themes", type: "multi", label: "Thèmes qui m'intéressent", title: "Quels thèmes t'intéressent le plus ?", hint: "Choisis-en un ou plusieurs.",
+    options: ["Mental et confiance en soi", "Basketball", "Remise en forme", "Argent et business", "Histoires inspirantes"] },
+  { id: "probleme", type: "text", optional: true, label: "Problème à résoudre", title: "Quel problème voudrais-tu résoudre en lisant un livre en ce moment ?", hint: "Facultatif : réponds en une ou deux phrases.", placeholder: "Ex. : je manque de confiance quand je joue…" },
+  { id: "prix", type: "single", label: "Budget pour un ebook", title: "Combien serais-tu prêt à payer pour un ebook qui t'aide vraiment ?", hint: "Une seule réponse.",
+    options: ["Moins de 1 000 FCFA", "1 000 à 2 000 FCFA", "2 000 à 3 000 FCFA", "Plus de 3 000 FCFA"] },
+  { id: "paiement", type: "single", label: "Moyen de paiement", title: "Quel moyen de paiement utilises-tu le plus ?", hint: "Une seule réponse.",
+    options: ["MTN MoMo", "Moov Money", "Celtiis Cash", "Autre"] },
+  { id: "source", type: "single", label: "Découvert StarsHub via", title: "Comment as-tu connu StarsHub ?", hint: "Une seule réponse.",
+    options: ["WhatsApp", "Facebook", "Instagram", "TikTok", "Un ami", "Autre"] }
+];
+(function(){
+  const KEY = "starshub_quiz_v1";
+  const overlay = document.getElementById("qzOverlay"), body = document.getElementById("qzBody");
+  const top = document.getElementById("qzTop"), bar = document.getElementById("qzBar"), live = document.getElementById("qzLive");
+  const invite = document.getElementById("qzInvite");
+  const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  let step = 0, answers = {}, lastFocus = null, timer = null;
+
+  const store = { get(){ try { return localStorage.getItem(KEY); } catch(e){ return null; } }, set(v){ try { localStorage.setItem(KEY, v); } catch(e){} } };
+
+  function render(){
+    const q = QUIZ[step], n = QUIZ.length;
+    top.textContent = "Question " + (step + 1) + " sur " + n;
+    bar.style.width = (step / n * 100 + 100 / n * (answers[q.id] && answers[q.id].length ? 0.5 : 0.2)) + "%";
+    live.textContent = "Question " + (step + 1) + " sur " + n + " : " + q.title;
+    const val = answers[q.id];
+    let field = "";
+    if(q.type === "text"){
+      field = `<textarea class="qz-text" id="qzText" maxlength="300" placeholder="${esc(q.placeholder || "")}" aria-label="${esc(q.title)}">${esc(val || "")}</textarea><div class="qz-count"><span id="qzN">${(val || "").length}</span>/300</div>`;
+    } else {
+      const multi = q.type === "multi", sel = multi ? (val || []) : [val];
+      field = `<div class="qz-opts ${multi ? "multi" : ""}">` + q.options.map((o, i) =>
+        `<label class="qz-opt"><input type="${multi ? "checkbox" : "radio"}" name="q" value="${esc(o)}" ${sel.includes(o) ? "checked" : ""}><span class="qz-mark" aria-hidden="true">✓</span><span>${esc(o)}</span></label>`).join("") + "</div>";
+    }
+    const last = step === n - 1;
+    body.innerHTML = `<fieldset class="qz-step"><legend tabindex="-1" id="qzLegend">${esc(q.title)}</legend><p class="qz-hint">${esc(q.hint || "")}</p>${field}
+      <div class="qz-error" id="qzErr" role="alert"></div>
+      <div class="qz-nav">
+        <button type="button" class="ck-btn" id="qzPrev" ${step === 0 ? "disabled" : ""}>← Retour</button>
+        <div style="display:flex; gap:10px;">
+          ${q.optional ? `<button type="button" class="ck-btn" id="qzSkip">Passer</button>` : ""}
+          ${q.type !== "single" ? `<button type="button" class="ck-btn primary" id="qzNext">${last ? "Terminer" : "Suivant →"}</button>` : ""}
+        </div>
+      </div></fieldset>`;
+    document.getElementById("qzLegend").focus({ preventScroll: true });
+    document.getElementById("qzPrev").addEventListener("click", () => go(step - 1));
+    const next = document.getElementById("qzNext"); if(next) next.addEventListener("click", submitStep);
+    const skip = document.getElementById("qzSkip"); if(skip) skip.addEventListener("click", () => { answers[q.id] = ""; go(step + 1); });
+    const ta = document.getElementById("qzText");
+    if(ta) ta.addEventListener("input", () => { document.getElementById("qzN").textContent = ta.value.length; });
+    if(q.type === "single") body.querySelectorAll("input").forEach(i => i.addEventListener("change", () => { answers[q.id] = i.value; clearTimeout(timer); timer = setTimeout(() => go(step + 1), 380); }));
+  }
+  function submitStep(){
+    const q = QUIZ[step], err = document.getElementById("qzErr");
+    if(q.type === "multi"){
+      const v = [...body.querySelectorAll("input:checked")].map(i => i.value);
+      if(!v.length){ err.textContent = "Choisis au moins une réponse."; return; }
+      answers[q.id] = v;
+    } else if(q.type === "text"){
+      answers[q.id] = document.getElementById("qzText").value.trim();
+    }
+    go(step + 1);
+  }
+  function go(i){
+    if(i < 0) return;
+    step = i;
+    if(step >= QUIZ.length) return finish();
+    render();
+  }
+  function summary(){
+    return QUIZ.map(q => { const a = answers[q.id]; const t = Array.isArray(a) ? a.join(", ") : (a || "—"); return { label: q.label, text: t || "—" }; });
+  }
+  function finish(){
+    top.textContent = "Merci !"; bar.style.width = "100%"; live.textContent = "Questionnaire terminé.";
+    const rows = summary();
+    const msg = "Bonjour " + STORE_NAME + " 👋 voici mes réponses au questionnaire :\n\n" +
+      rows.map((r, i) => (i + 1) + ") " + r.label + " : " + r.text).join("\n") + "\n\nMerci !";
+    store.set("done");
+    body.innerHTML = `<div class="qz-step"><h2 id="qzLegend" tabindex="-1" style="font:600 24px 'Fraunces',Georgia,serif; margin-bottom:6px; outline:none;">Merci pour tes réponses 🙌</h2>
+      <p class="qz-hint">Vérifie-les, puis envoie-les-nous sur WhatsApp en un clic.</p>
+      <div class="qz-recap">${rows.map(r => `<div><b>${esc(r.label)}</b>${esc(r.text)}</div>`).join("")}</div>
+      <div class="qz-nav"><button type="button" class="ck-btn" id="qzEdit">← Modifier</button>
+        <a class="btn btn-primary" id="qzSend" href="${waLink(msg)}" target="_blank" rel="noopener">💬 Envoyer sur WhatsApp</a></div>
+      <p class="qz-priv">Tes réponses ne sont envoyées que lorsque tu appuies sur « Envoyer » : elles partent dans une conversation WhatsApp avec StarsHub.</p></div>`;
+    document.getElementById("qzLegend").focus({ preventScroll: true });
+    document.getElementById("qzEdit").addEventListener("click", () => go(QUIZ.length - 1));
+    document.getElementById("qzSend").addEventListener("click", () => { setTimeout(close, 400); });
+  }
+  function open(){
+    hideInvite(); lastFocus = document.activeElement; step = 0;
+    overlay.classList.add("open"); overlay.setAttribute("aria-hidden", "false"); document.body.classList.add("modal-open");
+    render();
+  }
+  function close(){
+    if(!overlay.classList.contains("open")) return;
+    overlay.classList.remove("open"); overlay.setAttribute("aria-hidden", "true"); document.body.classList.remove("modal-open");
+    clearTimeout(timer); if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  function showInvite(){ if(overlay.classList.contains("open")) return; invite.classList.add("show"); invite.setAttribute("aria-hidden", "false"); }
+  function hideInvite(){ invite.classList.remove("show"); invite.setAttribute("aria-hidden", "true"); }
+
+  document.getElementById("qzClose").addEventListener("click", close);
+  overlay.addEventListener("click", e => { if(e.target === overlay) close(); });
+  ["qzOpen", "qzFooter"].forEach(id => { const b = document.getElementById(id); if(b) b.addEventListener("click", () => { store.set(store.get() || "seen"); open(); }); });
+  document.getElementById("qzInvGo").addEventListener("click", () => { store.set(store.get() || "seen"); open(); });
+  document.getElementById("qzInvLater").addEventListener("click", () => { store.set(store.get() || "seen"); hideInvite(); });
+  document.getElementById("qzInvX").addEventListener("click", () => { store.set(store.get() || "seen"); hideInvite(); });
+  document.addEventListener("keydown", e => {
+    if(!overlay.classList.contains("open")) return;
+    if(e.key === "Escape") close();
+    if(e.key === "Tab"){
+      const f = [...overlay.querySelectorAll("button, a[href], input, textarea")].filter(x => !x.disabled && x.offsetParent !== null);
+      if(!f.length) return; const first = f[0], last = f[f.length - 1];
+      if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+  });
+
+  // petite invitation, une seule fois, quand le visiteur n'est pas occupé (ni cookies, ni fenêtre ouverte)
+  function scheduleInvite(){
+    if(!QUIZ_SETTINGS.invite || store.get()) return;
+    const tryShow = () => {
+      if(store.get()) return;
+      const busy = document.body.classList.contains("ck-open") || document.body.classList.contains("modal-open") || document.getElementById("ckPrefs").classList.contains("open");
+      if(busy) setTimeout(tryShow, 4000); else showInvite();
+    };
+    setTimeout(tryShow, QUIZ_SETTINGS.inviteDelay);
+  }
+  scheduleInvite();
+  window.StarsHubQuiz = { open, close, showInvite };
 })();
 
 /* ============================================================
